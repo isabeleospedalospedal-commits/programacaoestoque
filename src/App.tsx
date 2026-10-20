@@ -17,6 +17,7 @@ import { PartnersModule } from './components/PartnersModule';
 import { CapacityModule } from './components/CapacityModule';
 import { OrdersModule } from './components/OrdersModule';
 import { ProductionOrdersModule } from './components/ProductionOrdersModule';
+import { ReportsModule } from './components/ReportsModule';
 import { EmitOrderModal } from './components/EmitOrderModal';
 import { DocumentationModal } from './components/DocumentationModal';
 import { storageService } from './services/storageService';
@@ -35,6 +36,7 @@ export default function App() {
     productId?: string;
     quantity?: number;
   }>({});
+  const [selectedPrintOPId, setSelectedPrintOPId] = useState<string | undefined>(undefined);
 
   // Inscrever para atualizações automáticas do storage
   useEffect(() => {
@@ -120,6 +122,22 @@ export default function App() {
             orders={database.orders}
             materials={database.materials}
             onOpenEmitModal={() => handleOpenEmitOP()}
+            onNavigateToPrintOP={(opId) => {
+              setSelectedPrintOPId(opId);
+              setCurrentTab('reports');
+            }}
+          />
+        )}
+
+        {currentTab === 'reports' && (
+          <ReportsModule
+            productionOrders={database.productionOrders}
+            products={database.products}
+            materials={database.materials}
+            workCenters={database.workCenters}
+            orders={database.orders}
+            partners={database.partners}
+            preselectedOPId={selectedPrintOPId}
           />
         )}
       </main>

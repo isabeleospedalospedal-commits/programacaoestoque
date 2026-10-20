@@ -19,6 +19,7 @@ import {
   RotateCcw,
   BookOpen,
   CheckCircle2,
+  Printer,
 } from 'lucide-react';
 import { storageService } from '../services/storageService';
 
@@ -30,7 +31,8 @@ export type NavTab =
   | 'capacity'
   | 'orders'
   | 'production_orders'
-  | 'tracking';
+  | 'tracking'
+  | 'reports';
 
 interface Props {
   currentTab: NavTab;
@@ -87,6 +89,7 @@ export const Header: React.FC<Props> = ({ currentTab, onSelectTab, onOpenDoc }) 
     { id: 'orders', label: 'Pedidos', icon: ShoppingCart },
     { id: 'production_orders', label: 'Ordens de Produção', icon: HardHat },
     { id: 'tracking', label: 'Acompanhamento PCP', icon: Timer },
+    { id: 'reports', label: 'Relatórios & Impressão', icon: Printer },
   ];
 
   return (
@@ -117,6 +120,15 @@ export const Header: React.FC<Props> = ({ currentTab, onSelectTab, onOpenDoc }) 
 
           {/* Action Toolbar */}
           <div className="flex items-center flex-wrap gap-2 text-xs">
+            <button
+              onClick={() => onSelectTab('reports')}
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold transition shadow-2xs"
+              title="Abrir Central de Relatórios e Impressão"
+            >
+              <Printer className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Imprimir Relatórios</span>
+            </button>
+
             <button
               onClick={onOpenDoc}
               className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition"

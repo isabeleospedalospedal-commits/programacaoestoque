@@ -1,1 +1,62 @@
 @import "tailwindcss";
+
+@media print {
+  /* Oculta elementos marcados como no-print (menus, botões, cabeçalhos do app) */
+  .no-print,
+  header,
+  footer,
+  nav,
+  button,
+  .no-print-area {
+    display: none !important;
+  }
+
+  /* Oculta barras de rolagem */
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Garante que o conteúdo de impressão ocupe a largura completa da folha */
+  .print-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+  }
+
+  /* Evita quebras indesejadas dentro de tabelas e blocos de assinatura */
+  .print-avoid-break {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 6px 8px !important;
+  }
+
+  th {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: bold !important;
+  }
+
+  /* Preserva cores em impressões coloridas ou em PDF */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

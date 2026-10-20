@@ -25,6 +25,7 @@ import {
   X,
   Building,
   RotateCcw,
+  Printer,
 } from 'lucide-react';
 import {
   ProductionOrder,
@@ -49,6 +50,7 @@ interface Props {
   orders: SalesOrder[];
   materials: RawMaterial[];
   onOpenEmitModal: () => void;
+  onNavigateToPrintOP?: (opId: string) => void;
 }
 
 export const ProductionOrdersModule: React.FC<Props> = ({
@@ -58,6 +60,7 @@ export const ProductionOrdersModule: React.FC<Props> = ({
   orders,
   materials,
   onOpenEmitModal,
+  onNavigateToPrintOP,
 }) => {
   const [viewMode, setViewMode] = useState<'kanban' | 'table'>('kanban');
   const [searchTerm, setSearchTerm] = useState('');
@@ -300,13 +303,24 @@ export const ProductionOrdersModule: React.FC<Props> = ({
                               )}
                             </div>
 
-                            <button
-                              onClick={() => setSelectedOPDetails(op)}
-                              className="text-slate-400 hover:text-slate-600 p-1"
-                              title="Ver ficha completa da OP"
-                            >
-                              <Eye className="w-3.5 h-3.5" />
-                            </button>
+                            <div className="flex items-center space-x-0.5">
+                              {onNavigateToPrintOP && (
+                                <button
+                                  onClick={() => onNavigateToPrintOP(op.id)}
+                                  className="text-slate-400 hover:text-indigo-600 p-1 rounded hover:bg-slate-100 transition"
+                                  title="Imprimir Ficha de Chão de Fábrica desta OP"
+                                >
+                                  <Printer className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                              <button
+                                onClick={() => setSelectedOPDetails(op)}
+                                className="text-slate-400 hover:text-slate-600 p-1 rounded hover:bg-slate-100 transition"
+                                title="Ver ficha completa da OP"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
 
                           {/* Product and Qty */}
@@ -504,6 +518,15 @@ export const ProductionOrdersModule: React.FC<Props> = ({
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end space-x-1">
+                          {onNavigateToPrintOP && (
+                            <button
+                              onClick={() => onNavigateToPrintOP(op.id)}
+                              className="p-1.5 text-slate-500 hover:text-indigo-600 rounded-lg hover:bg-slate-100"
+                              title="Imprimir Ficha da OP"
+                            >
+                              <Printer className="w-3.5 h-3.5" />
+                            </button>
+                          )}
                           <button
                             onClick={() => setSelectedOPDetails(op)}
                             className="p-1.5 text-slate-500 hover:text-indigo-600 rounded-lg hover:bg-slate-100"
@@ -758,10 +781,22 @@ export const ProductionOrdersModule: React.FC<Props> = ({
               )}
             </div>
 
-            <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end">
+            <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-between items-center">
+              {onNavigateToPrintOP && (
+                <button
+                  onClick={() => {
+                    onNavigateToPrintOP(selectedOPDetails.id);
+                    setSelectedOPDetails(null);
+                  }}
+                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 shadow-2xs transition"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Imprimir Ficha de Chão de Fábrica</span>
+                </button>
+              )}
               <button
                 onClick={() => setSelectedOPDetails(null)}
-                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold"
+                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold ml-auto"
               >
                 Fechar
               </button>
